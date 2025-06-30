@@ -13,33 +13,26 @@ USER_CREDENTIALS = {
     "anmol": "vachan2025"
 }
 
-# Initialize session state
-if "logged_in" not in st.session_state:
-    st.session_state.logged_in = False
-if "username" not in st.session_state:
-    st.session_state.username = ""
-
-# Login function
 def login():
-    st.title("🔐 Login Required")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
-    login_btn = st.button("Login")
 
-    if login_btn:
-        if username in USER_CREDENTIALS and USER_CREDENTIALS[username] == password:
-            st.session_state.logged_in = True
-            st.session_state.username = username
-            st.success("✅ Login successful")
+    if st.button("Login"):
+        if username == "admin" and password == "123":
+            st.session_state["logged_in"] = True
             st.experimental_rerun()
         else:
-            st.error("❌ Invalid credentials")
+            st.error("Invalid credentials")
 
-# Run login screen if not logged in
-if not st.session_state.logged_in:
+# In your main app flow
+if "logged_in" not in st.session_state:
+    st.session_state["logged_in"] = False
+
+if not st.session_state["logged_in"]:
     login()
-    st.stop()
-
+else:
+    st.success("You are logged in!")
+    
 # -------------------------------------------
 # MAIN DASHBOARD STARTS HERE
 # -------------------------------------------
