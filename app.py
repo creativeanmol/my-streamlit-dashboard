@@ -18,20 +18,26 @@ def login():
     password = st.text_input("Password", type="password")
 
     if st.button("Login"):
-        if username == "admin" and password == "123":
+        if username in USER_CREDENTIALS and USER_CREDENTIALS[username] == password:
             st.session_state["logged_in"] = True
+            st.session_state["username"] = username  # ✅ Set username
             st.experimental_rerun()
         else:
             st.error("Invalid credentials")
 
-# In your main app flow
+# Initialize session state
 if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
 
+if "username" not in st.session_state:
+    st.session_state["username"] = ""
+
+# If not logged in, show login screen
 if not st.session_state["logged_in"]:
     login()
 else:
     st.success("You are logged in!")
+
     
 # -------------------------------------------
 # MAIN DASHBOARD STARTS HERE
