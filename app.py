@@ -8,12 +8,22 @@ from ta.volatility import AverageTrueRange
 # -------------------------------------------
 # USER LOGIN SECTION
 # -------------------------------------------
+import streamlit as st
+
 USER_CREDENTIALS = {
     "admin": "pass123",
     "anmol": "vachan2025"
 }
 
+# Initialize session state
+if "logged_in" not in st.session_state:
+    st.session_state["logged_in"] = False
+if "username" not in st.session_state:
+    st.session_state["username"] = ""
+
+# Login form
 def login():
+    st.title("🔐 Login Required")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
@@ -21,33 +31,23 @@ def login():
         if username in USER_CREDENTIALS and USER_CREDENTIALS[username] == password:
             st.session_state["logged_in"] = True
             st.session_state["username"] = username
-            st.experimental_rerun()
-            st.stop()  # Prevent further execution
         else:
             st.error("Invalid credentials")
 
-# Initialize session state
-if "logged_in" not in st.session_state:
-    st.session_state["logged_in"] = False
-
-if "username" not in st.session_state:
-    st.session_state["username"] = ""
-
-# Show login page if not logged in
+# Check login
 if not st.session_state["logged_in"]:
     login()
-    st.stop()  # 👈 Prevent dashboard from running
+    st.stop()  # Stop app here if not logged in
 
-# -------------------------------------------
-# MAIN DASHBOARD STARTS HERE
-# -------------------------------------------
-st.set_page_config(layout="wide")
+# Continue app only after login
 st.sidebar.success(f"👋 Welcome, {st.session_state.username}")
 if st.sidebar.button("🚪 Logout"):
-    st.session_state.logged_in = False
-    st.experimental_rerun()
+    st.session_state["logged_in"] = False
+    st.session_state["username"] = ""
+    st.experimental_rerun()  # ✅ Only needed for logout (safe here)
 
-st.title("🔍 Intraday Stock Scanner - Nifty 200")
+st.title("🏠 Dashboard Home")
+
 # Nifty 200 symbols (truncated for demo; you can include full list)
 NIFTY_200 = [
     "RELIANCE.NS", "TCS.NS", "INFY.NS", "HDFCBANK.NS", "ICICIBANK.NS", "LT.NS", "SBIN.NS", "AXISBANK.NS",
