@@ -46,7 +46,7 @@ if st.sidebar.button("🚪 Logout"):
     st.session_state["username"] = ""
     st.experimental_rerun()  # ✅ Only needed for logout (safe here)
 
-st.title("🏠 Dashboard Home")
+st.title("Top 10 stocks to trade")
 
 # Nifty 200 symbols (truncated for demo; you can include full list)
 NIFTY_200 = [
@@ -181,7 +181,7 @@ for idx, symbol in enumerate(NIFTY_200):
 # DISPLAY TOP 10 RESULTS
 # -------------------------------------------
 top = sorted(scored_stocks, key=lambda x: x['score'], reverse=True)[:10]
-st.subheader("🌟 Top 10 Intraday Candidates")
+st.subheader("Here are the best candidate")
 for item in top:
     st.write(
         f"**{item['symbol']}** - Score: {item['score']} | 🎯 Buy Price: {item['buy_price'] or 'N/A'} | 📈 Outcome: {item['label']}"
