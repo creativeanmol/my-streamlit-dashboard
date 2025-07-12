@@ -22,18 +22,21 @@ def login():
             st.session_state["logged_in"] = True
             st.session_state["username"] = username
             st.experimental_rerun()
+            st.stop()  # Prevent further execution
         else:
             st.error("Invalid credentials")
 
+# Initialize session state
 if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
 
 if "username" not in st.session_state:
     st.session_state["username"] = ""
 
+# Show login page if not logged in
 if not st.session_state["logged_in"]:
     login()
-    st.stop()
+    st.stop()  # 👈 Prevent dashboard from running
 
 # -------------------------------------------
 # MAIN DASHBOARD STARTS HERE
